@@ -1,0 +1,469 @@
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TasteTheTest - Quiz002</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Tajawal', sans-serif;
+            background-color: #121212;
+            color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #1e1e1e;
+            border-bottom: 1px solid #444;
+            position: relative;
+        }
+        header img {
+            height: 40px;
+            margin: 0 10px;
+        }
+        .header-actions {
+            position: absolute;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .icon-button {
+            background-color: #2c2c2c;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 16px;
+        }
+        .icon-button:hover {
+            background-color: #444;
+        }
+        .container {
+            padding: 20px;
+            flex: 1;
+        }
+        .question-box {
+            background-color: #1f1f1f;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+            margin-bottom: 20px;
+        }
+        .options button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #2c2c2c;
+            border: none;
+            color: white;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            font-family: 'Tajawal', sans-serif;
+        }
+        .options button:hover {
+            background-color: #444;
+        }
+        .correct {
+            background-color: #2e7d32 !important;
+        }
+        .incorrect {
+            background-color: #c62828 !important;
+        }
+        .results {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+        }
+        .results h3 {
+            margin-top: 0;
+        }
+        .results-summary {
+            margin: 20px 0;
+            background-color: #2c2c2c;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            text-align: center;
+        }
+        .results-summary div {
+            flex: 1;
+        }
+        .results-summary strong {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+        .start-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 50px 20px;
+        }
+        .start-screen h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        .start-button {
+            background-color: #8458b3;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-family: 'Tajawal', sans-serif;
+        }
+        .start-button:hover {
+            background-color: #6e47a0;
+        }
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 10px;
+            position: fixed;
+            z-index: 1;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+        }
+        #toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+        @keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #1e1e1e;
+            border-top: 1px solid #444;
+        }
+        footer img {
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="taste.png" alt="Logo">
+        <div class="header-actions">
+
+            <button class="icon-button" onclick="copyLink()" title="مشاركة">
+                <i class="fas fa-share-alt"></i>
+            </button>
+            
+                        <a class="icon-button" href="index.html" title="العودة للصفحة الرئيسية">
+                <i class="fas fa-house"></i>
+            </a>
+        </div>
+    </header>
+    <div class="container" id="startScreen">
+        <div class="start-screen">
+            <h1>امتحان اللغة الإنجليزية</h1>
+            <button class="start-button" onclick="startQuiz()">ابدأ الآن</button>
+        </div>
+    </div>
+    <div class="container" id="quizContainer" style="display:none;"></div>
+    <div class="container results" id="results">
+        <h3><i class="fas fa-check-circle icon"></i>راجع إجاباتك</h3>
+        <div class="results-summary" id="summary"></div>
+        <div id="reviewAnswers"></div>
+    </div>
+    <div id="toast">تم نسخ رابط المشاركة!</div>
+    <footer>
+        <img src="abdelrhman.png" alt="Powered and Designed by Abdelrhman">
+    </footer><script>
+    const questions = [
+    {
+        "question": "_____ did she finish the exam when she realized her mistake.",
+        "options": ["A) No sooner", "B) Rarely", "C) Under no circumstances", "D) Not once"],
+        "answer": "A) No sooner"
+    },
+    {
+        "question": "The teacher suggested ____ the project in groups.",
+        "options": ["A) doing", "B) to do", "C) that do", "D) should do"],
+        "answer": "A) doing"
+    },
+    {
+        "question": "This table is ____ wood, so it’s heavy and durable.",
+        "options": ["A) made from", "B) made of", "C) made by", "D) made with"],
+        "answer": "B) made of"
+    },
+    {
+        "question": "The new law is ____ implemented next month.",
+        "options": ["A) due to be", "B) come out", "C) published", "D) to publishing"],
+        "answer": "A) due to be"
+    },
+    {
+        "question": "She studies stars and planets; she’s an ____.",
+        "options": ["A) astronaut", "B) astronomer", "C) astrologer", "D) athlete"],
+        "answer": "B) astronomer"
+    },
+    {
+        "question": "You ____ return the books to the library by Friday.",
+        "options": ["A) are to", "B) must to", "C) should be", "D) have been"],
+        "answer": "A) are to"
+    },
+    {
+        "question": "_____, we should focus on renewable energy solutions.",
+        "options": ["A) As far as I am concerned", "B) Due to be", "C) Made from", "D) Qualified as"],
+        "answer": "A) As far as I am concerned"
+    },
+    {
+        "question": "He helped me ____ the difficult equations.",
+        "options": ["A) solve", "B) solving", "C) to solving", "D) with solve"],
+        "answer": "A) solve"
+    },
+    {
+        "question": "I would rather ____ early than miss the flight.",
+        "options": ["A) leave", "B) leaving", "C) to leave", "D) left"],
+        "answer": "A) leave"
+    },
+    {
+        "question": "The school has excellent ____ for sports training.",
+        "options": ["A) ability", "B) facility", "C) qualified", "D) vocational"],
+        "answer": "B) facility"
+    },
+    {
+        "question": "She is qualified ____ a cardiologist.",
+        "options": ["A) as", "B) in", "C) for", "D) with"],
+        "answer": "A) as"
+    },
+    {
+        "question": "____ should you share your password with anyone.",
+        "options": ["A) Under no circumstances", "B) Rarely", "C) Not until", "D) Hardly"],
+        "answer": "A) Under no circumstances"
+    },
+    {
+        "question": "Paper is ____ recycled materials.",
+        "options": ["A) made from", "B) made of", "C) made by", "D) made in"],
+        "answer": "A) made from"
+    },
+    {
+        "question": "The novel will ____ next week.",
+        "options": ["A) come out", "B) due to be", "C) published", "D) be to"],
+        "answer": "A) come out"
+    },
+    {
+        "question": "____ had he left the house when it started raining.",
+        "options": ["A) No sooner", "B) Scarcely", "C) Not a single time", "D) Little"],
+        "answer": "B) Scarcely"
+    },
+    {
+        "question": "They insisted ____ the meeting.",
+        "options": ["A) on postponing", "B) to postpone", "C) postpone", "D) that postponing"],
+        "answer": "A) on postponing"
+    },
+    {
+        "question": "I prefer hiking ____ swimming.",
+        "options": ["A) to", "B) than", "C) rather than", "D) over"],
+        "answer": "A) to"
+    },
+    {
+        "question": "____ the news, she burst into tears.",
+        "options": ["A) Not until", "B) Hardly had she heard", "C) No sooner", "D) Under no circumstances"],
+        "answer": "B) Hardly had she heard"
+    },
+    {
+        "question": "He is specialized ____ quantum physics.",
+        "options": ["A) in", "B) as", "C) for", "D) with"],
+        "answer": "A) in"
+    },
+    {
+        "question": "____ was the storm that all flights were canceled.",
+        "options": ["A) So severe", "B) Such severe", "C) How severe", "D) Too severe"],
+        "answer": "A) So severe"
+    },
+    {
+        "question": "The museum prohibits ____ photographs.",
+        "options": ["A) taking", "B) to take", "C) take", "D) took"],
+        "answer": "A) taking"
+    },
+    {
+        "question": "____ I accept late submissions.",
+        "options": ["A) On no account", "B) Rarely", "C) Not since", "D) Scarcely"],
+        "answer": "A) On no account"
+    },
+    {
+        "question": "This juice is ____ fresh oranges.",
+        "options": ["A) made from", "B) made of", "C) made by", "D) made in"],
+        "answer": "A) made from"
+    },
+    {
+        "question": "____ we start the meeting without the manager?",
+        "options": ["A) Are to", "B) Should", "C) Were", "D) Had"],
+        "answer": "B) Should"
+    },
+    {
+        "question": "She helped me ____ my presentation.",
+        "options": ["A) with preparing", "B) prepare", "C) to preparing", "D) A & B"],
+        "answer": "D) A & B"
+    },
+    {
+        "question": "____ predict the future using stars.",
+        "options": ["A) Astronauts", "B) Astronomers", "C) Astrologers", "D) Athletes"],
+        "answer": "C) Astrologers"
+    },
+    {
+        "question": "He would prefer ____ rather ____.",
+        "options": ["A) to stay / than go", "B) staying / to going", "C) stay / than go", "D) stayed / than went"],
+        "answer": "A) to stay / than go"
+    },
+    {
+        "question": "____ did she arrive at the station when the train left.",
+        "options": ["A) Hardly", "B) No sooner", "C) Not until", "D) Under no circumstances"],
+        "answer": "A) Hardly"
+    },
+    {
+        "question": "This device is ____ advanced technology.",
+        "options": ["A) made from", "B) made of", "C) made by", "D) made with"],
+        "answer": "D) made with"
+    },
+    {
+        "question": "The concert is ____ place despite the rain.",
+        "options": ["A) due to be", "B) come out", "C) to take", "D) being taken"],
+        "answer": "A) due to be"
+    }
+];
+
+    let currentQuestionIndex = 0;
+    const responses = [];
+
+    function startQuiz() {
+        document.getElementById('startScreen').style.display = 'none';
+        document.getElementById('quizContainer').style.display = 'block';
+        loadQuestion(currentQuestionIndex);
+    }
+
+    function loadQuestion(index) {
+        const container = document.getElementById('quizContainer');
+        container.innerHTML = '';
+
+        if (index >= questions.length) {
+            showResults();
+            return;
+        }
+
+        const q = questions[index];
+        const qBox = document.createElement('div');
+        qBox.className = 'question-box';
+        qBox.innerHTML = `<h3>${index + 1}. ${q.question}</h3>`;
+
+        const optionsDiv = document.createElement('div');
+        optionsDiv.className = 'options';
+        q.options.forEach(option => {
+            const btn = document.createElement('button');
+            btn.innerText = option;
+            btn.onclick = () => handleAnswer(btn, option, q.answer, index);
+            optionsDiv.appendChild(btn);
+        });
+
+        qBox.appendChild(optionsDiv);
+        container.appendChild(qBox);
+    }
+
+    function handleAnswer(button, selected, correct, index) {
+        const buttons = button.parentElement.querySelectorAll('button');
+        buttons.forEach(btn => btn.disabled = true);
+
+        const correctBtn = Array.from(buttons).find(b => b.innerText === correct);
+
+        if (selected === correct) {
+            document.body.style.backgroundColor = '#1b5e20';
+            button.classList.add('correct');
+        } else {
+            document.body.style.backgroundColor = '#b71c1c';
+            button.classList.add('incorrect');
+            if (correctBtn) correctBtn.classList.add('correct');
+        }
+
+        responses.push({
+            ...questions[index],
+            chosen: selected,
+            isCorrect: selected === correct
+        });
+
+        setTimeout(() => {
+            document.body.style.backgroundColor = '#121212';
+            currentQuestionIndex++;
+            loadQuestion(currentQuestionIndex);
+        }, 1000);
+    }
+
+    function showResults() {
+        document.getElementById('quizContainer').style.display = 'none';
+        const results = document.getElementById('results');
+        const reviewDiv = document.getElementById('reviewAnswers');
+        const summaryDiv = document.getElementById('summary');
+        results.style.display = 'block';
+        reviewDiv.innerHTML = '';
+
+        const correctCount = responses.filter(r => r.isCorrect).length;
+        const incorrectCount = responses.length - correctCount;
+        const percentage = Math.round((correctCount / responses.length) * 100);
+
+        summaryDiv.innerHTML = `
+            <div><strong>عدد الإجابات الصحيحة</strong><br>${correctCount}</div>
+            <div><strong>عدد الإجابات الخاطئة</strong><br>${incorrectCount}</div>
+            <div><strong>النسبة المئوية</strong><br>${percentage}%</div>
+        `;
+
+        responses.forEach((q, i) => {
+            const qBox = document.createElement('div');
+            qBox.className = 'question-box';
+            qBox.innerHTML = `<h4>${i + 1}. ${q.question}</h4>`;
+
+            q.options.forEach(opt => {
+                const p = document.createElement('p');
+                p.innerText = opt;
+                if (opt === q.answer) p.classList.add('correct');
+                if (opt === q.chosen && opt !== q.answer) p.classList.add('incorrect');
+                qBox.appendChild(p);
+            });
+
+            reviewDiv.appendChild(qBox);
+        });
+    }
+
+    function copyLink() {
+        navigator.clipboard.writeText('https://aelrhman2007.github.io/TasteTheTest/quiz002.html')
+            .then(() => {
+                const toast = document.getElementById('toast');
+                toast.className = 'show';
+                setTimeout(() => { toast.className = toast.className.replace('show', ''); }, 3000);
+            })
+            .catch(() => alert('حدث خطأ أثناء النسخ.'));
+    }
+</script>
+
+</body>
+</html>
