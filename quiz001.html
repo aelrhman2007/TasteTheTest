@@ -194,7 +194,7 @@
     </div>
     <div class="container" id="quizContainer" style="display:none;"></div>
     <div class="container results" id="results">
-        <h3><i class="fas fa-check-circle icon"></i> مراجعة شاملة</h3>
+        <h3><i class="fas fa-check-circle icon"></i>راجع إجاباتك</h3>
         <div class="results-summary" id="summary"></div>
         <div id="reviewAnswers"></div>
     </div>
@@ -297,9 +297,9 @@
         const percentage = Math.round((correctCount / responses.length) * 100);
 
         summaryDiv.innerHTML = `
-            <div><strong>عدد الإجابات الصحيحة:</strong><br>${correctCount}</div>
-            <div><strong>عدد الإجابات الخاطئة:</strong><br>${incorrectCount}</div>
-            <div><strong>النسبة المئوية:</strong><br>${percentage}%</div>
+            <div><strong>عدد الإجابات الصحيحة</strong><br>${correctCount}</div>
+            <div><strong>عدد الإجابات الخاطئة</strong><br>${incorrectCount}</div>
+            <div><strong>النسبة المئوية</strong><br>${percentage}%</div>
         `;
 
         responses.forEach((q, i) => {
