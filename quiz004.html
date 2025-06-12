@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+     <title>أفكار النماذج الاسترشادية (1-5)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet"/>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Tajawal', sans-serif;
+            background-color: #121212;
+            color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #1e1e1e;
+            border-bottom: 1px solid #444;
+            position: relative;
+        }
+        header img {
+            height: 40px;
+            margin: 0 10px;
+        }
+        .header-actions {
+            position: absolute;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .icon-button {
+            background-color: #2c2c2c;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 16px;
+        }
+        .icon-button:hover {
+            background-color: #444;
+        }
+        .start-button {
+            background-color: #8458b3;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-family: 'Tajawal', sans-serif;
+        }
+        .start-button:hover {
+            background-color: #6e47a0;
+        }
+
+        .container {
+            padding: 20px;
+            flex: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .question-box {
+            position: relative;
+            background-color: #1f1f1f;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+            margin-bottom: 20px;
+        }
+    
+    .question-box p {
+    border: 1px solid #666666;
+    border-radius: 12px;
+    padding: 5px 10px;
+    font-weight: 500;
+    margin-bottom: 3px;
+}
+    
+    
+.copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: #333333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 12px;
+}
+    
+        .options button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #2c2c2c;
+            border: 2px solid transparent;
+            color: white;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            font-family: 'Tajawal', sans-serif;
+        }
+        .options button:hover {
+            background-color: #444;
+        }
+        .options button.selected {
+            border-color: #a88ac9;
+         background-color: #271a35;   
+        }
+
+        .results {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+        }
+        .results h3 {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 24px;
+}
+.correct {
+    background-color: #2e7d32 !important;
+    border-radius: 8px;
+}
+
+.incorrect {
+    background-color: #c62828 !important;
+    border-radius: 8px;
+}
+   
+        .start-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 50px 20px;
+        }
+        .start-screen h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+.start-screen h2 {
+    font-weight: 300;
+    font-size: 16px;
+    margin-bottom: 20px;
+    max-width: 50%;
+}
+
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 10px;
+            position: fixed;
+            z-index: 1;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+        }
+        #toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #1e1e1e;
+            border-top: 1px solid #444;
+        }
+        footer img {
+            height: 30px;
+        }
+
+
+.question-nav {
+    background-color: #1f1f1f;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 20px;
+    overflow-x: auto; /* تمكين التمرير الأفقي عند الحاجة */
+    max-width: 100%; /* منع التجاوز الأفقي */
+}
+
+.nav-grid {
+    display: grid;
+    grid-template-columns: repeat(10, minmax(40px, 1fr)); /* حجم مرن للأزرار */
+    gap: 8px;
+    margin-bottom: 15px;
+    width: max-content; /* محتوى يحدد العرض */
+    min-width: 100%; /* أقل عرض ممكن */
+}
+
+.nav-button {
+    background-color: #2c2c2c;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    min-width: 40px;
+    transition: all 0.3s ease;
+    box-sizing: border-box; /* تضمين الحشو في العرض */
+}
+
+/* إخفاء شريط التمرير لتحسين المظهر */
+.question-nav::-webkit-scrollbar {
+    display: none;
+}
+        .nav-button.answered {
+            background-color: #8458b3;
+        }
+        .nav-button.current {
+            background-color: #271a35;
+            border: 2px solid transparent;
+            border-color: #a88ac9;
+        }
+        .nav-button:hover {
+            background-color: #444;
+        }
+    
+    
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom:15px;
+        }
+        .nav-action-button {
+            width:50%;
+            flex-grow: 1;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+    
+    .finish-button-container {
+    width: 100%;
+    margin-top: 15px;
+    text-align: center;
+        margin-bottom:15px;
+}
+    
+        .nav-submit-button {
+            width: 100%;
+            flex-grow: 1;
+            padding: 10px 15px;
+            background-color: #3d7d5c;
+            transition: all 0.5s ease !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+    
+     .nav-submit-button:hover {
+            background-color: #1a3527;
+            transform: scale(1.02);
+        }
+
+        .nav-submit-button i {
+            transition: transform 0.3s ease;
+        }
+
+        .nav-submit-button:hover i {
+            transform: rotate(360deg);
+        }
+    
+    .nav-action-button,
+.nav-submit-button {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+        .results-summary {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            background-color: #2c2c2c;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .results-summary > div {
+            flex: 1;
+            min-width: 150px;
+            background-color: #1f1f1f;
+            padding: 15px;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+        .results-summary div strong {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+        .percentage-container {
+            width: 100%;
+            height: 30px;
+            background-color: #444;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+        .percentage-bar {
+            height: 100%;
+            background-color: #8458b3;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-weight: bold;
+        }
+
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+        @keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
+
+        @media (max-width: 768px) {
+            .results-summary > div {
+                flex: 100%;
+                min-width: auto;
+            }
+        }
+    
+    .result-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+    padding: 20px 0;
+}
+
+.result-actions .start-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    font-size: 16px;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <img src="taste.png" alt="Logo">
+        <div class="header-actions">
+            <button class="icon-button" onclick="copyLink()" title="مشاركة">
+                <i class="fas fa-share-alt"></i>
+            </button>
+            <a class="icon-button" href="index.html" title="العودة للصفحة الرئيسية">
+                <i class="fas fa-house"></i>
+            </a>
+        </div>
+    </header>
+
+    <div class="container" id="startScreen">
+        <div class="start-screen">
+            <h1>أفكار النماذج الاسترشادية (1-5)</h1>
+                        <h2>امتحان أسئلة الامتحانات الاسترشادية (أول خمسة)  بدون أسئلة القطع والمقالي ، فقط أسئلة الدرجة والدرجتين من كل امتحان</h2>
+            <button class="start-button" onclick="startQuiz()">ابدأ الآن</button>
+        </div>
+    </div>
+
+    <div class="container" id="quizContainer" style="display:none;"></div>
+
+    <div class="container results" id="results">
+        <h3><i class="fas fa-check-circle icon"></i> راجع إجاباتك</h3>
+        <div class="results-summary" id="summary"></div>
+        <div id="reviewAnswers"></div>
+        <div class="result-actions">
+<button class="start-button" onclick="copyLink()">
+    <i class="fas fa-share-alt"></i>
+    شارك الامتحان
+</button>
+<button class="start-button" onclick="window.location.reload()">
+    <i class="fas fa-sync-alt"></i>
+    إعادة المحاولة
+</button>        </div>
+    </div>
+
+    <div id="toast">تم نسخ رابط المشاركة!</div>
+
+    <footer>
+        <img src="abdelrhman.png" alt="Powered and Designed by Abdelrhman">
+    </footer>
+
+    <script>
+    
+    const questions = [
+  {
+    "question": "This is a really .......... view. It’s very attractive.",
+    "options": ["A) dull", "B) picturesque", "C) gloomy", "D) ordinary"],
+    "answer": "B) picturesque"
+  },
+  {
+    "question": "Mr Tom Baker is an Irish expatriate living in Luxor. \"Expatriate\" is the opposite in meaning to \"..........\"",
+    "options": ["A) partners", "B) emigrant", "C) expert", "D) native"],
+    "answer": "D) native"
+  },
+  {
+    "question": "A lot of Naguib Mahfouz’s novels were .......... into successful films.",
+    "options": ["A) succeeded", "B) done", "C) made", "D) appeared"],
+    "answer": "C) made"
+  },
+  {
+    "question": "Scientists are going to look .......... other ways to find alternative sources of renewable energy.",
+    "options": ["A) up", "B) into", "C) down", "D) off"],
+    "answer": "B) into"
+  },
+  {
+    "question": "The young man was .......... of stealing the lady’s jewellery.",
+    "options": ["A) charged", "B) excused", "C) changed", "D) accused"],
+    "answer": "D) accused"
+  },
+  {
+    "question": "Although she faced a lot of obstacles, she .......... as a doctor.",
+    "options": ["A) failed", "B) published", "C) qualified", "D) defied"],
+    "answer": "C) qualified"
+  },
+  {
+    "question": "My brother studied really .........., so he did very .......... in his exams.",
+    "options": ["A) hard / well", "B) hardly / well", "C) hardly / good", "D) hard / good"],
+    "answer": "A) hard / well"
+  },
+  {
+    "question": "I can’t believe .......... you’re saying, reconsider it, please.",
+    "options": ["A) which", "B) what", "C) all which", "D) that"],
+    "answer": "B) what"
+  },
+  {
+    "question": "You must follow the rules of cleanliness to avoid ..........",
+    "options": ["A) been infected", "B) infected", "C) being infected", "D) to be infected"],
+    "answer": "C) being infected"
+  },
+  {
+    "question": "It was .......... thrilling movie that I decided to watch it again.",
+    "options": ["A) such a", "B) enough", "C) such", "D) so"],
+    "answer": "A) such a"
+  },
+  {
+    "question": "A/An .......... is used to express strong feelings in written language.",
+    "options": ["A) backslash", "B) exclamation mark", "C) question mark", "D) quotation mark"],
+    "answer": "B) exclamation mark"
+  },
+  {
+    "question": "Once I have reached London, I .......... you an email.",
+    "options": ["A) sent", "B) will send", "C) have sent", "D) will be sent"],
+    "answer": "B) will send"
+  },
+  {
+    "question": "Don’t worry, no one heard what ..........",
+    "options": ["A) had said", "B) had been said", "C) has said", "D) will be said"],
+    "answer": "B) had been said"
+  },
+  {
+    "question": "I bought .......... bread, but I didn’t buy .......... meat.",
+    "options": ["A) a lot / any", "B) a lot of / no", "C) a lot of / any", "D) many / any"],
+    "answer": "C) a lot of / any"
+  },
+  {
+    "question": "I’m so sorry. I forgot .......... my activity book. I will bring it next time.",
+    "options": ["A) bringing", "B) to bringing", "C) bring", "D) to bring"],
+    "answer": "D) to bring"
+  },
+  {
+    "question": "Do you know Mr Gaber, .......... son won an international award for poetry?",
+    "options": ["A) who", "B) who’s", "C) whose", "D) that"],
+    "answer": "C) whose"
+  },
+  {
+    "question": "I can’t meet up with you because I .......... all evening.",
+    "options": ["A) was studying", "B) will be studying", "C) has studied", "D) will have studied"],
+    "answer": "B) will be studying"
+  },
+  {
+    "question": "Don't worry; these items are half a mark ..........",
+    "options": ["A) neither", "B) every", "C) none", "D) each"],
+    "answer": "D) each"
+  },
+  {
+    "question": "I didn’t buy that smart mobile phone because of not having enough money. This means:",
+    "options": [
+      "A) But for having enough money, I would not have bought that smart mobile phone.",
+      "B) If I had enough money, I’d have that smart mobile phone.",
+      "C) Unless I had had enough money, I wouldn’t have bought that smart mobile phone.",
+      "D) If I had had enough money, I’d have bought that smart mobile phone."
+    ],
+    "answer": "D) If I had had enough money, I’d have bought that smart mobile phone."
+  },
+  {
+    "question": "The author .......... to make the story more interesting, but some of the incidents seemed illogical.",
+    "options": ["A) expressed", "B) exaggerated", "C) realised"],
+    "answer": "B) exaggerated"
+  },
+  {
+    "question": "Educationists always try to .......... students’ productivity levels.",
+    "options": ["A) rise", "B) raise", "C) arise"],
+    "answer": "B) raise"
+  },
+  {
+    "question": "Unfortunately, the accident left the young man .......... disabled.",
+    "options": ["A) permanently", "B) permanent", "C) temporary", "D) objected", "E) temporarily"],
+    "answer": "A) permanently"
+  },
+  {
+    "question": "The impressive historic sites in Luxor usually .......... more and more tourists.",
+    "options": ["A) refuse", "B) disgust", "C) estimate", "D) captivate"],
+    "answer": "D) captivate"
+  },
+  {
+    "question": "Determination is one of the factors of success. \"Determination\" is similar in meaning to \"..........\".",
+    "options": ["A) expectation", "B) imitation", "C) resolution"],
+    "answer": "C) resolution"
+  },
+  {
+    "question": "I think we need to look .......... ways of cutting down pollution.",
+    "options": ["A) into", "B) to", "C) in"],
+    "answer": "A) into"
+  },
+  {
+    "question": "Online shopping has increased significantly; it has grown ..........",
+    "options": ["A) on the other hand", "B) to a minor extent", "C) on a bigger scale", "D) in addition"],
+    "answer": "C) on a bigger scale"
+  },
+  {
+    "question": "Rami got very low marks; he .......... the faculty he wanted.",
+    "options": ["A) couldn’t have joined", "B) must have joined", "C) shouldn’t have joined", "D) had to join"],
+    "answer": "A) couldn’t have joined"
+  },
+  {
+    "question": "My mother.......... the housework when I returned home, so I helped her finish that work.",
+    "options": ["A) had done", "B) has done", "C) is doing", "D) was doing"],
+    "answer": "C) was doing"
+  },
+  {
+    "question": "Don’t worry; only .......... coffee was spilt on the carpet.",
+    "options": ["A) little", "B) much","C) a little","D) a few"],
+    "answer": "C) a little"
+  },
+  {
+    "question": "In conclusion, we can say that studying in the morning seems to help most students to become more productive. \"In conclusion\" can be replaced with \"..........\".",
+    "options": ["A) on condition", "B) in detail", "C) on purpose", "D) in summary"],
+    "answer": "D) in summary"
+  },
+  {
+    "question": "I think more desert land .......... by 2050.",
+    "options": ["A) will have been reclaimed", "B) will have reclaimed", "C) had to be reclaimed", "D) will be reclaiming"],
+    "answer": "A) will have been reclaimed"
+  },
+  {
+    "question": "Your health seems to be worsening. You .......... a doctor at the beginning of the infection.",
+    "options": ["A) didn’t have to consult", "B) should have consulted", "C) must have consulted", "D) had to consult"],
+    "answer": "B) should have consulted"
+  },
+  {
+    "question": "It was kind of Hady to help the old man .......... the heavy bag in the street.",
+    "options": ["A) who carrying", "B) carried", "C) was carrying", "D) carrying"],
+    "answer": "D) carrying"
+  },
+  {
+    "question": ".......... of the four children received a special gift; they were all pleased with the gifts.",
+    "options": ["A) A little", "B) None", "C) Each", "D) both"],
+    "answer": "C) Each"
+  },
+  {
+    "question": "I highly appreciate the kind manager with .......... we work.",
+    "options": ["A) that", "B) whom"],
+    "answer": "B) whom"
+  },
+  {
+    "question": "I wish I had worked harder when I had time. This means:",
+    "options": [
+      "A) If I had time, I’d work hard.",
+      "B) I regret not working hard when I had time.",
+      "C) I hope I’ll work hard when I have time.",
+      "D) I regret not to work hard when I have time."
+    ],
+    "answer": "B) I regret not working hard when I had time."
+  },
+  {
+    "question": "I was .......... to follow the leader’s instructions or I .......... be punished.",
+    "options": ["A) saying / would", "B) advising / will", "C) inquired / will", "D) ordered / would"],
+    "answer": "D) ordered / would"
+  },
+  {
+    "question": "Which of the following is the correct direct sentence for this reported one? He asked me when I’d be ready for the journey to Alexandria.",
+    "options": [
+      "A) He said to me, \"When you’ll be ready for the journey to Alexandria?\"",
+      "B) He said to me, \"When will you be ready for the journey to Alexandria?\"",
+      "C) He said to me, \"When have you been ready for the journey to Alexandria?\"",
+      "D) He said to me, \"When will he be ready for the journey to Alexandria?\""
+    ],
+    "answer": "B) He said to me, \"When will you be ready for the journey to Alexandria?\""
+  },
+  {
+    "question": "You let me down. You shouldn’t have .......... me!",
+    "options": ["A) cooperated", "B) frustrated", "C) encouraged", "D) appointed"],
+    "answer": "B) frustrated"
+  },
+  {
+    "question": "Despite her illness, she lost none of her .......... for life. She was always optimistic.",
+    "options": ["A) envy", "B) hatred", "C) enthusiasm", "D) patriotism"],
+    "answer": "C) enthusiasm"
+  },
+  {
+    "question": "My father enjoyed watching different matches on TV, but he rarely..........any sport.",
+    "options": ["A) appeared", "B) made", "C) carried", "D) did"],
+    "answer": "D) did"
+  },
+  {
+    "question": "My uncle has become a/an .......... to all young people in our neighbourhood because of his significant achievements.",
+    "options": ["A) shame", "B) cause", "C) inspiration", "D) respiration"],
+    "answer": "C) inspiration"
+  },
+  {
+    "question": "He was in prison because he had failed to pay .......... his debts.",
+    "options": ["A) away", "B) of", "C) in", "D) off"],
+    "answer": "D) off"
+  },
+  {
+    "question": "The company is making progress because they usually insist on having ......employees.",
+    "options": ["A) deficiently", "B) deficient", "C) efficiently", "D) efficient"],
+    "answer": "D) efficient"
+  },
+  {
+    "question": "We stopped.....that everyone’s microphones were turned on because they always were.",
+    "options": ["A) to check", "B) to checking", "C) checking", "D) to be checked"],
+    "answer": "C) checking"
+  },
+  {
+    "question": "No decision...about our destination yet. We don’t know where we will spend the holiday!",
+    "options": ["A) hasn’t made", "B) hadn’t been made", "C) had been made", "D) has been made"],
+    "answer": "D) has been made"
+  },
+  {
+    "question": "Unfortunately, there was a problem with .......... wings of the plane.",
+    "options": ["A) both", "B) every", "C) either", "D) neither"],
+    "answer": "A) both"
+  },
+  {
+    "question": "My sister .......... engineering for five years and became a clever engineer.",
+    "options": ["A) studied", "B) has studied", "C) is studying", "D) will be studying"],
+    "answer": "A) studied"
+  },
+  {
+    "question": "Which of the following isn’t punctuated correctly?",
+    "options": [
+      "A) \"I’ve bought a bigger flat in Naser City\" said Mr Fadel.",
+      "B) \" I’ve bought a bigger flat in Naser City,\" Said Mr Fadel.",
+      "C) \"I’ve bought a bigger flat in Naser City.\" said Mr Fadel.",
+      "D) \"I’ve bought a bigger flat in Naser City\" said Mr Fadel."
+    ],
+    "answer": "B) \" I’ve bought a bigger flat in Naser City,\" Said Mr Fadel."
+  },
+  {
+    "question": "He .......... a new antivirus yesterday; he had a very strong one.",
+    "options": ["A) had to install", "B) mustn’t install", "C) needn’t install", "D) didn’t have to install"],
+    "answer": "D) didn’t have to install"
+  },
+  {
+    "question": "I asked her why .......... that important lecture.",
+    "options": ["A) she hadn’t attended", "B) hadn’t she attended", "C) she hasn’t attended", "D) didn’t she attend"],
+    "answer": "A) she hadn’t attended"
+  },
+  {
+    "question": "I haven’t met her since she .......... to that new post!",
+    "options": ["A) has been promoted", "B) is promoted", "C) promoted", "D) was promoted"],
+    "answer": "D) was promoted"
+  },
+  {
+    "question": "As soon as I reached the office, I .......... doing the new task.",
+    "options": ["A) had started", "B) started", "C) will start", "D) have started"],
+    "answer": "B) started"
+  },
+  {
+    "question": "Your car .......... You need to wait a little.",
+    "options": ["A) had been checked", "B) has checked", "C) is checking", "D) is being checked"],
+    "answer": "D) is being checked"
+  },
+  {
+    "question": "I do not know .......... this stranger comes from.",
+    "options": ["A) who", "B) where", "C) when", "D) whom"],
+    "answer": "B) where"
+  },
+  {
+    "question": "Which of the following is structurally correct?",
+    "options": [
+      "A) She is such kind lady that we all like her.",
+      "B) Hatim is too sick to attend the meeting.",
+      "C) Tamer isn’t rich such to buy that expensive car.",
+      "D) Peter is so shy to play with other boys."
+    ],
+    "answer": "B) Hatim is too sick to attend the meeting."
+  },
+  {
+    "question": "Which of the following doesn’t show regret?",
+    "options": [
+      "A) I wish I had followed my father’s advice.",
+      "B) I ought to have spent my money wisely.",
+      "C) I had to follow the coach’s instructions.",
+      "D) I really regret starting to smoke."
+    ],
+    "answer": "C) I had to follow the coach’s instructions."
+  },
+  {
+    "question": "Unfortunately, he couldn’t get that job because he .......... experience.",
+    "options": ["A) lacked", "B) locked", "C) leaked", "D) liked"],
+    "answer": "A) lacked"
+  },
+  {
+    "question": "To win the job, you need to act .......... during your internship at our company.",
+    "options": ["A) spontaneous", "B) professionally", "C) spontaneously", "D) professional"],
+    "answer": "B) professionally"
+  },
+  {
+    "question": "Let’s get .......... to discuss the problems we face in our neighbourhood.",
+    "options": ["A) on", "B) off", "C) apart", "D) together"],
+    "answer": "D) together"
+  },
+  {
+    "question": "My friend .......... to do the difficult task; he really made a great effort.",
+    "options": ["A) refused", "B) forced", "C) struggled", "D) declined"],
+    "answer": "C) struggled"
+  },
+  {
+    "question": "There's nothing worse than friends who spill secrets. \"Spill\" here is an antonym for.........",
+    "options": ["A) keep", "B) say", "C) reveal", "D) prevail"],
+    "answer": "A) keep"
+  },
+  {
+    "question": "You must be careful when having a barbecue. Just one .......... could cause a big fire.",
+    "options": ["A) park", "B) peak", "C) spark", "D) spot"],
+    "answer": "C) spark"
+  },
+  {
+    "question": ".......... are constantly searching for planets that may support human life.",
+    "options": ["A) Astrologers", "B) Astronomers", "C) Psychologists"],
+    "answer": "B) Astronomers"
+  },
+  {
+    "question": "My neighbour, .......... works as an accountant, has had a terrible accident.",
+    "options": ["A) that", "B) whom", "C) who", "D) whose"],
+    "answer": "C) who"
+  },
+  {
+    "question": "I think having .......... business experience is not why people succeed. There are other reasons.",
+    "options": ["A) a few", "B) little", "C) a lot" ,"D) much"],
+    "answer": "D) much"
+  },
+  {
+    "question": "Have you .......... about spending the weekend in the country?",
+    "options": ["A) thought", "B) considered", "C) Archaeologists", "D) considering"],
+    "answer": "A) thought"
+  },
+  {
+    "question": "Which of the following is punctuated correctly?",
+    "options": [
+      "A) I said, \"Why don’t you come to my sisters wedding, Nada?\"",
+      "B) I said, \"why don’t you come to my sister’s wedding, Nada?",
+      "C) I said \"Why don’t you come to my sister’s wedding, Nada?\"",
+      "D) I said, \"Why don’t you come to my sister’s wedding, Nada?\""
+    ],
+    "answer": "D) I said, \"Why don’t you come to my sister’s wedding, Nada?\""
+  },
+  {
+    "question": ".......... for a long time before the manager .......... ?",
+    "options": ["A) Have you been waiting / arrived", "B) Had you been waiting / arrived", "C) Are you waiting / arrived", "D) Had you waited / arrives"],
+    "answer": "B) Had you been waiting / arrived"
+  },
+  {
+    "question": "She .......... that she will return from London after attending the conference.",
+    "options": ["A) told", "B) says"],
+    "answer": "A) told"
+  },
+  {
+    "question": "Have you ever .......... for being late to work?",
+    "options": ["A) criticised", "B) been criticised", "C) criticise"],
+    "answer": "B) been criticised"
+  },
+  {
+    "question": "He .......... the exam: he looks terribly depressed.",
+    "options": ["A) mustn’t have passed", "B) must have passed", "C) couldn’t have passed", "D) shouldn’t have passed"],
+    "answer": "C) couldn’t have passed"
+  },
+  {
+    "question": "He had left when I arrived. This means:",
+    "options": [
+      "A) After I had arrived, he left.",
+      "B) Before I arrived, he had left.",
+      "C) First, I arrived. Then, he left.",
+      "D) He didn’t leave till I had arrived."
+    ],
+    "answer": "B) Before I arrived, he had left."
+  },
+  {
+    "question": "I realised I .......... my watch in the office when I .......... home.",
+    "options": ["A) have left / returned", "B) was leaving / returned", "C) had left / had returned"],
+    "answer": "C) had left / had returned"
+  },
+  {
+    "question": "Once I .......... my homework, I will go to the club with my friends.",
+    "options": ["A) will finish", "B) have finished", "C) was finishing"],
+    "answer": "B) have finished"
+  },
+  {
+    "question": "Many years have passed .......... the last time we met in Paris.",
+    "options": ["A) since", "B) for", "C) while", "D) when"],
+    "answer": "A) since"
+  },
+  {
+    "question": "A lot of environmental problems could.........because of a lack of public awareness.",
+    "options": ["A) raise", "B) arise", "C) reach", "D) arouse"],
+    "answer": "B) arise"
+  },
+  {
+    "question": "If you are in danger of suffering from burnout, you will probably .......... stress.",
+    "options": ["A) hide", "B) cure", "C) damage", "D) experience"],
+    "answer": "D) experience"
+  },
+  {
+    "question": "My brother hopes he will get a/an.........at a dentist’s where a lot of people in our area go.",
+    "options": ["A) scholarship", "B) membership", "C) hardship", "D) internship"],
+    "answer": "D) internship"
+  },
+  {
+    "question": "Hatim overcame a lot of hardships in his life, which enabled him to .......... himself.",
+    "options": ["A) reinvite", "B) turn", "C) reinvent", "D) return"],
+    "answer": "C) reinvent"
+  },
+  {
+    "question": "It’s a/an .......... place; it’s pretty and interesting in an old-fashioned way.",
+    "options": ["A) excited", "B) picturesque", "C) modern", "D) ugly"],
+    "answer": "B) picturesque"
+  },
+  {
+    "question": "I speak English and German, but Arabic is the .......... language spoken; it’s the native language in Egypt.",
+    "options": ["A) foreign", "B) second", "C) dominant", "D) minor"],
+    "answer": "C) dominant"
+  },
+  {
+    "question": "The newly graduated young man is a .......... who is keen to get a new job a bank.",
+    "options": ["A) employer", "B) expert", "C) intern", "D) candidate"],
+    "answer": "D) candidate"
+  },
+  {
+    "question": "It is a well .......... fact that English is used in most international conferences.",
+    "options": ["A) knowing", "B) known", "C) -knowing", "D) -known"],
+    "answer": "D) -known"
+  },
+  {
+    "question": "My mother asked me to grill the fish for five minutes on .......... side.",
+    "options": ["A) all", "B) every", "C) each", "D) both"],
+    "answer": "C) each"
+  },
+  {
+    "question": "Please raise your voice; I can’t hear .......... you are saying.",
+    "options": ["A) which", "B) when", "C) that", "D) what"],
+    "answer": "D) what"
+  },
+  {
+    "question": "At the end of an essay, we can use \" .......... \".",
+    "options": ["A) Moreover,", "B) In short,", "C) First of all", "D) However,"],
+    "answer": "B) In short,"
+  },
+  {
+    "question": "Tamer .......... early when he was young, but now he is very punctual.",
+    "options": ["A) used to arrive", "B) never used to arrive", "C) isn’t used to arriving", "D) is used to arriving"],
+    "answer": "B) never used to arrive"
+  },
+  {
+    "question": "More schools .......... all over Egypt next summer as planned.",
+    "options": ["A) were to be built", "B) are going to be built", "C) are building", "D) will be building"],
+    "answer": "B) are going to be built"
+  },
+  {
+    "question": "By the time Faten .......... the service centre, her car .......... and repaired.",
+    "options": ["A) had reached / was checked", "B) reached / had checked", "C) arrived / had been checked", "D) reached / had been repaired"],
+    "answer": "D) reached / had been repaired"
+  },
+  {
+    "question": "Have you met Mr Awny, .......... ?",
+    "options": ["A) whom I told you about", "B) I told you about him", "C) that I told you about", "D) what I told you about"],
+    "answer": "A) whom I told you about"
+  },
+  {
+    "question": "The Nile River Valley is truly a gift to Egypt. Without its water and rich soil, the Egyptian civilization .......... .",
+    "options": ["A) would not have emerged", "B) would not have been emerged", "C) wouldn’t be emerge", "D) won’t have emerged"],
+    "answer": "A) would not have emerged"
+  },
+  {
+    "question": ".......... ; most students could answer the five questions easily.",
+    "options": ["A) Both questions were difficult", "B) All the questions were difficult", "C) No question was easy", "D) None of the questions was difficult"],
+    "answer": "D) None of the questions was difficult"
+  },
+  {
+    "question": "He seemed exhausted because he .......... hard all day.",
+    "options": ["A) has worked", "B) has been working", "C) had been working", "D) had worked"],
+    "answer": "C) had been working"
+  },
+  {
+    "question": "I .......... spending the weekend with my friends in the village.",
+    "options": ["A) consider", "B) hope", "C) object", "D) wish"],
+    "answer": "A) consider"
+  }
+];
+
+    
+
+
+
+        let currentQuestionIndex = 0;
+        const responses = Array(questions.length).fill(null);
+
+        function startQuiz() {
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('quizContainer').style.display = 'block';
+            loadQuestion(currentQuestionIndex);
+        }
+
+        function loadQuestion(index) {
+            currentQuestionIndex = index;
+            const container = document.getElementById('quizContainer');
+            container.innerHTML = '';
+
+            const q = questions[index];
+            const qBox = document.createElement('div');
+            qBox.className = 'question-box';
+            qBox.innerHTML = `<h3>${index + 1}. ${q.question}</h3>`;
+
+            const optionsDiv = document.createElement('div');
+            optionsDiv.className = 'options';
+
+            q.options.forEach(option => {
+                const btn = document.createElement('button');
+                btn.innerText = option;
+                btn.classList.toggle('selected', responses[index]?.chosen === option);
+
+                btn.onclick = () => {
+                    // Allow changing answer by toggling selection
+                    if (btn.classList.contains('selected')) {
+                        btn.classList.remove('selected');
+                        responses[index] = null;
+                    } else {
+                        // Remove selection from other buttons
+                        optionsDiv.querySelectorAll('button').forEach(b => b.classList.remove('selected'));
+                        btn.classList.add('selected');
+                        responses[index] = {
+                            ...questions[index],
+                            chosen: option,
+                            isCorrect: option === q.answer
+                        };
+                    }
+                    updateNavigationButtons();
+                };
+
+                optionsDiv.appendChild(btn);
+            });
+
+            qBox.appendChild(optionsDiv);
+            
+            const navContainer = document.createElement('div');
+            navContainer.className = 'question-nav';
+            
+            const navGrid = document.createElement('div');
+            navGrid.className = 'nav-grid';
+            
+            questions.forEach((_, i) => {
+                const btn = document.createElement('button');
+                btn.className = `nav-button ${responses[i] ? 'answered' : ''} ${i === index ? 'current' : ''}`;
+                btn.textContent = i + 1;
+                btn.onclick = () => loadQuestion(i);
+                navGrid.appendChild(btn);
+            });
+            
+         const actionButtons = document.createElement('div');
+        actionButtons.className = 'navigation-buttons';
+        
+        const prevBtn = document.createElement('button');
+        prevBtn.className = 'start-button nav-action-button';
+        prevBtn.innerHTML = '<i class="fas fa-arrow-left"></i> السابق';
+        prevBtn.disabled = index === 0;
+        prevBtn.onclick = () => loadQuestion(currentQuestionIndex - 1);
+        
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'start-button nav-action-button';
+        nextBtn.innerHTML = 'التالي <i class="fas fa-arrow-right"></i>';
+        nextBtn.disabled = index === questions.length - 1;
+        nextBtn.onclick = () => loadQuestion(currentQuestionIndex + 1);
+        
+        actionButtons.appendChild(prevBtn);
+        actionButtons.appendChild(nextBtn);
+       navContainer.appendChild(actionButtons);
+        
+        
+
+        if(index === questions.length - 1) {
+            const finishButtonContainer = document.createElement('div');
+            finishButtonContainer.className = 'finish-button-container';
+            
+            const finishBtn = document.createElement('button');
+            finishBtn.className = 'start-button nav-submit-button';
+            finishBtn.innerHTML = '<i class="fas fa-check-circle"></i> إنهاء الاختبار';
+            finishBtn.onclick = showResults;
+            
+            finishButtonContainer.appendChild(finishBtn);
+            navContainer.appendChild(finishButtonContainer);
+        }
+
+            navContainer.appendChild(navGrid);
+        qBox.appendChild(navContainer);
+        container.appendChild(qBox);
+        }
+
+        function updateNavigationButtons() {
+            const buttons = document.querySelectorAll('.nav-button');
+            buttons.forEach((btn, i) => {
+                btn.classList.toggle('answered', !!responses[i]);
+                btn.classList.toggle('current', i === currentQuestionIndex);
+            });
+        }
+
+        function showResults() {
+            document.getElementById('quizContainer').style.display = 'none';
+            const results = document.getElementById('results');
+            const reviewDiv = document.getElementById('reviewAnswers');
+            const summaryDiv = document.getElementById('summary');
+            results.style.display = 'block';
+            reviewDiv.innerHTML = '';
+
+            const correctCount = responses.filter(r => r?.isCorrect).length;
+            const totalQuestions = questions.length;
+            const percentage = Math.round((correctCount / totalQuestions) * 100);
+
+            summaryDiv.innerHTML = `
+                <div>
+                    <strong>الإجابات الصحيحة</strong>
+                    <div>${correctCount}/${totalQuestions}</div>
+                </div>
+                <div>
+                    <strong>النسبة المئوية</strong>
+                    <div class="percentage-container">
+                        <div class="percentage-bar" style="width: ${percentage}%; background-color: ${getColorByPercentage(percentage)};">
+                            ${percentage}%
+                        </div>
+                    </div>
+                </div>
+            `;
+
+responses.forEach((q, i) => {
+    const qBox = document.createElement('div');
+    qBox.className = 'question-box';
+
+    // عنوان السؤال
+    const questionTitle = document.createElement('h4');
+    questionTitle.innerText = `${i + 1}. ${questions[i].question}`;
+    qBox.appendChild(questionTitle);
+
+    // زر النسخ
+    const copyBtn = document.createElement('button');
+    copyBtn.type = 'button';
+    copyBtn.className = 'copy-btn';
+    copyBtn.innerHTML = `<i class="fas fa-copy"></i>`; // أيقونة النسخ
+    copyBtn.addEventListener('click', () => {
+        const textToCopy = [
+            `${i + 1}. ${questions[i].question}`,
+            ...questions[i].options.map(opt => `- ${opt}`)
+        ].join('\n');
+        navigator.clipboard.writeText(textToCopy)
+            .then(() => {
+                copyBtn.innerHTML = `<i class="fas fa-check"></i> تم نسخ السؤال للحافظة`;
+                setTimeout(() => copyBtn.innerHTML = `<i class="fas fa-copy"></i>`, 2000);
+            })
+            .catch(err => {
+                console.error('خطأ في النسخ:', err);
+                copyBtn.innerText = '❌ فشل النسخ';
+                setTimeout(() => copyBtn.innerHTML = `<i class="fas fa-copy"></i>`, 2000);
+            });
+    });
+    qBox.appendChild(copyBtn);
+
+    // في حالة عدم وجود إجابة
+    if (!q) {
+        const pNo = document.createElement('p');
+        pNo.className = 'no-ans';
+        pNo.innerText = 'لم يتم تحديد إجابة';
+        qBox.appendChild(pNo);
+    }
+
+    // إضافة الخيارات
+    questions[i].options.forEach(opt => {
+        const p = document.createElement('p');
+        p.innerText = opt;
+        if (opt === questions[i].answer) p.classList.add('correct');
+        if (q && opt === q.chosen && opt !== questions[i].answer) p.classList.add('incorrect');
+        qBox.appendChild(p);
+    });
+
+    reviewDiv.appendChild(qBox);
+});
+        }
+
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href)
+                .then(() => {
+                    const toast = document.getElementById('toast');
+                    toast.className = 'show';
+                    setTimeout(() => { toast.className = toast.className.replace('show', ''); }, 3000);
+                })
+                .catch(() => alert('حدث خطأ أثناء النسخ.'));
+        }
+    
+        function getColorByPercentage(p) {
+            if (p >= 100) return "#00FF00";
+            if (p >= 85) return "#33FF00";
+            if (p >= 70) return "#99FF00";
+            if (p >= 60) return "#CCFF00";
+            if (p >= 50) return "#FFD700";
+            if (p >= 40) return "#FFB300";
+            if (p >= 30) return "#FF8000";
+            if (p >= 20) return "#FF6600";
+            if (p >= 10) return "#FF3300";
+            return "#FF0000";
+        }
+    </script>
+</body>
+</html>
